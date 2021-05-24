@@ -26,11 +26,11 @@ class NavWrapper extends Component {
     const { cur } = this.state
 
     return (
-    <Layout className="layout">
-    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }} className="m-nav" >
+    <div className="layout">
+    <Header style={{ zIndex: 1, width: '100%' }} className="m-nav" >
       <div className="logo">
         <img src={logo} width="40" height="40" alt=""></img>
-        <label className='u-name' >浙江东都建筑设计研究院有限公司</label>
+        <label className='u-name' >浙江东都建筑设计研究院管理系统</label>
       </div>
       <Menu theme="dark" 
             mode="horizontal" 
@@ -47,7 +47,7 @@ class NavWrapper extends Component {
     <div className="site-layout-content">
        {this.props.children}
     </div>
-  </Layout>
+  </div>
     )
   }
 }
