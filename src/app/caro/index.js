@@ -1,8 +1,47 @@
 import React, { Component } from 'react'
-import {Button} from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
+import {Upload,message,Button} from 'antd';
 import './style.less';
 var API_SERVER = 'http://localhost:2000'
+
+let changeid = 1
+let carlsize = 7
+let upfilename = `0${changeid}.jpg`
+let addfilename = `0${carlsize}.jpg`
+const up = {
+    name: upfilename,
+    action: `${API_SERVER}/api/caro/editCarousel`,
+    data:{
+        id:changeid
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        // console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} 上传成功`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} 上传失败`);
+      }
+    }
+  };
+
+  const add = {
+    name: addfilename,
+    action: `${API_SERVER}/api/caro/addCarousel`,
+    data:{
+        id:changeid
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        // console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} 上传成功`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} 上传失败`);
+      }
+    }
+  };
 
 export default class Caro extends Component {
 
@@ -10,7 +49,7 @@ export default class Caro extends Component {
         super(props)
 
         this.state={
-            carl:[]
+            carl:[] 
         }
 
     }
@@ -22,12 +61,11 @@ export default class Caro extends Component {
         })
         .then(data=>{
             this.setState({carl:data.carl})
-            console.log(this.state.carl);
         })
     }
 
-    editcarl=()=>{
-        
+    deletecarl=()=>{
+
     }
 
     render() {
@@ -38,20 +76,24 @@ export default class Caro extends Component {
             <div className='m-caro'>
                 {carl.map((item,i)=>
                 <div className="u-item" key={i}>
-                    <img className="u-img"  src={`${API_SERVER}/${item.img}`} />
+                    <img className="u-img" alt='' src={`${API_SERVER}/${item.img}`} />
                     <div className="m-button" >
-                    <Button type="primary" size='middle' onClick={this.editcarl}>
+                    <Upload {...up} >
+                    <Button type="primary" className='u-btn' id={i} size='middle' >
                         修改图片
                     </Button>
-                    <Button type="primary" size='middle'>
+                    </Upload>
+                    <Button type="primary" className='u-btn' id={i} size='middle' onClick={this.deletecarl}>
                         删除图片
                     </Button>
                     </div>
                 </div>
                 )}
-                <div type="primary" size='middle' className="u-addimg">
+                <Upload {...add} >
+                <div type="primary" size='middle' className="u-addimg" >
                     增加图片
                 </div>
+                </Upload>
             </div>
         )
     }
